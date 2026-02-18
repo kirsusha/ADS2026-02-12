@@ -1,4 +1,4 @@
-package by.it.group551001.kirinskaya;
+package by.it.group551001.kirinskaya.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -24,7 +24,34 @@ public class FiboC {
     long fasterC(long n, int m) {
         //Интуитивно найти решение не всегда просто и
         //возможно потребуется дополнительный поиск информации
-        return -1L;
+        int period = 0;
+        int prev = 0;
+        int curr = 1;
+
+        do {
+            int temp = curr;
+            curr = (prev + curr) % m;
+            prev = temp;
+            period++;
+        } while (!(prev == 0 && curr == 1));
+
+        // Уменьшаем n с учетом периода
+        long reducedN = n % period;
+
+        // Вычисляем Fibonacci[reducedN] mod m
+        if (reducedN <= 1) return reducedN;
+
+        long fibPrev = 0;
+        long fibCurr = 1;
+
+        for (long i = 2; i <= reducedN; i++) {
+            long fibNext = (fibPrev + fibCurr) % m;
+            fibPrev = fibCurr;
+            fibCurr = fibNext;
+        }
+
+        return fibCurr;
+
     }
 
 
